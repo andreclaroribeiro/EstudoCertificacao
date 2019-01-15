@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,32 +15,40 @@ namespace EstudoCertificacao.Exercicio
     {
         static void Main(string[] args)
         {
-            //ThrowException();
-            //NotThrowException();
-            //Console.WriteLine("\nCHECKED output value is: {0}", CheckedMethod());
-            //Console.WriteLine("UNCHECKED output value is: {0}", UncheckedMethod());
-
-            //Using_QueueList();
-
-            //Using_TaskRun();
-
-            //Using_StackPushPop();
-
-            //var starter = new UseStart();
-            //((IHome)starter).Start();
-            //((IOffice)starter).Start();
-
-            //Using_WeakReference();
-
-            //Regex_With_ForEach();
-            //Regex_With_Enumerator();
-
-            FormatString();
-
+            SortedList();
+            
             Console.WriteLine();
             Console.WriteLine("Fim de processamento!");
             Console.ReadLine();
         }
+
+        #region [ Format string datetime and temperature ]
+
+        /// <summary>
+        /// Questioin 2 - Topic 1
+        /// </summary>
+        static void FormatStringDateTimeAndTemperadure()
+        {
+            var temperature = 45.98555;
+
+            var output = string.Format("Temperature at {0:t} on {0:MM/dd/yyyy} is {1:N2}", 
+                DateTime.Now, 
+                temperature);
+
+            Console.WriteLine(output);
+
+            Console.WriteLine();
+
+            temperature = -15.445;
+
+            output = string.Format("Temperature at {0:t} on {0:MM/dd/yyyy} is {1:N2}",
+                DateTime.Now,
+                temperature);
+
+            Console.WriteLine(output);
+        }
+
+        #endregion [ Format string datetime and temperature ]
 
         #region [ Block Checked ]
 
@@ -123,6 +133,28 @@ namespace EstudoCertificacao.Exercicio
         }
 
         #endregion [ Queue List ]
+
+        #region [ SortedList ] 
+
+        /// <summary>
+        /// Question 9 - Topic 1
+        /// </summary>
+        static void SortedList()
+        {
+            var lista = new SortedList
+            {
+                { 1, "item 1" },
+                { 2, "item 2" },
+                { 3, "item 3" }
+            };
+
+            for (int i = 0; i <= lista.Count; i++)
+            {
+                Console.WriteLine(lista[i]);
+            }
+        }
+
+        #endregion [ SortedList ] 
 
         #region [ Exceptions ]
 
@@ -277,7 +309,7 @@ namespace EstudoCertificacao.Exercicio
 
         #endregion [ WeakReference ]
 
-        #region [ Regex ]
+        #region [ Regex E-mail ]
 
         static void Regex_With_Enumerator()
         {
@@ -322,7 +354,7 @@ namespace EstudoCertificacao.Exercicio
             }
         }
 
-        #endregion [ Regex ]
+        #endregion [ Regex E-mail ]
 
         #region [ Format string coins ]
 
@@ -340,6 +372,53 @@ namespace EstudoCertificacao.Exercicio
         }
 
         #endregion [ Format string coins ]
+
+        #region [ Hash Algorithm ]
+
+        static void HasAlgorithm()
+        {
+            byte[] result;
+
+            string algorithmType = null;
+            string fileName = null;
+
+            var hasher = HashAlgorithm.Create(algorithmType);
+            var fileBytes = System.IO.File.ReadAllBytes(fileName);
+
+            hasher.ComputeHash(fileBytes);
+            result = hasher.Hash;
+        }
+
+        #endregion [ Hash Algorithm ]
+
+        #region [ StreamWriter console ]
+
+        /// <summary>
+        /// Question 210 - Topic 2
+        /// </summary>
+        static void StreamWriterConsole()
+        {
+            var pathBase = @"C:\Estudo\EstudoCertificacao\EstudoCertificacao.Exercicio\Helper";
+            var fileWriter = Path.Combine(pathBase, "console.txt");
+            var fileStream = Path.Combine(pathBase, "exercisestream.txt");
+
+            File.Delete(fileWriter);
+
+            using (StreamWriter writer = new StreamWriter(fileWriter))
+            {
+                Console.SetOut(writer);
+
+                using (FileStream stream = new FileStream(fileStream, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        while (!reader.EndOfStream) Console.WriteLine(reader.ReadLine());
+                    }
+                }
+            }
+        }
+
+        #endregion [ StreamWriter console ]
 
     }
 
