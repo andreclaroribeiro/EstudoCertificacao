@@ -15,7 +15,7 @@ namespace EstudoCertificacao.Exercicio
     {
         static void Main(string[] args)
         {
-            SortedList();
+            Using_IEquatable();
             
             Console.WriteLine();
             Console.WriteLine("Fim de processamento!");
@@ -420,6 +420,24 @@ namespace EstudoCertificacao.Exercicio
 
         #endregion [ StreamWriter console ]
 
+        #region [ IEquatable ]
+
+        static void Using_IEquatable()
+        {
+            var objectA = new Class1 { ID = 1, Name = "Teste A" };
+            var objectB = new Class1 { ID = 1, Name = "Teste A" };
+            var objectC = new Class1 { ID = 2, Name = "Teste A" };
+            var objectD = new Class1 { ID = 1, Name = "Teste B" };
+            var objectE = new Class1 { ID = 3, Name = "Teste E" };
+
+            Console.WriteLine($"A == B: {objectA.Equals(objectB)}");
+            Console.WriteLine($"B == C: {objectB.Equals(objectC)}");
+            Console.WriteLine($"C == D: {objectC.Equals(objectD)}");
+            Console.WriteLine($"D == E: {objectD.Equals(objectE)}");
+        }
+
+        #endregion [ IEquatable ]
+
     }
 
     public class Customer
@@ -454,6 +472,19 @@ namespace EstudoCertificacao.Exercicio
         void IOffice.Start()
         {
             Console.WriteLine("Start de IOffice.");
+        }
+    }
+
+    public class Class1 : IEquatable<Class1>
+    {
+        public Int32 ID { get; set; }
+        public String Name { get; set; }
+        public bool Equals(Class1 other)
+        {
+            if (other == null) return false;
+            if (this.ID != other.ID) return false;
+            if (!Object.Equals(this.Name, other.Name)) return false;
+            return true;
         }
     }
 }
